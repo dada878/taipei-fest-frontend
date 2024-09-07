@@ -55,12 +55,12 @@
     width: 100%;
     display: flex;
     justify-content: center;
-
+    margin-top: 20px;
 }
 
 .butt button{
     width: 100%;
-    height: 100%;
+    height: 40px;
     background-color: #5AB4C4;
     border-radius: 9px;
 }

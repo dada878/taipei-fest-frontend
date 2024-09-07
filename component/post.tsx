@@ -24,9 +24,6 @@ export default function Pinsheet() {
     return(
         <div className={style.all}>
             <div className={style.bg}>
-                <div className={style.bar}>
-
-                </div>
                 <div className={style.title}>
                     <input type="text" placeholder="請輸入標題..."  name="title"></input>
                 </div>
