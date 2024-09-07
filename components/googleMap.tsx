@@ -1,17 +1,13 @@
 "use client";
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   APIProvider,
   Map,
   Marker,
   useMap,
-  useMarkerRef,
   AdvancedMarker,
   useAdvancedMarkerRef,
-  Pin
-} from '@vis.gl/react-google-maps';
-
-import UserPosition from './userPosition';
+} from "@vis.gl/react-google-maps";
 
 const MyComponent = () => {
   const map = useMap();
@@ -19,8 +15,11 @@ const MyComponent = () => {
   useEffect(() => {
     if (!map) return;
     navigator.geolocation.getCurrentPosition((position) => {
-      map.setCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
-      map.setZoom(18)
+      map.setCenter({
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      });
+      map.setZoom(18);
     });
     // here you can interact with the imperative maps API
   }, [map]);
@@ -28,61 +27,125 @@ const MyComponent = () => {
   return <></>;
 };
 
+interface Marker {
+  lng: number;
+  lat: number;
+  title: string;
+  time: number;
+  description?: string;
+  image?: string;
+  __v: number;
+  _id: string;
+}
+
 const App = () => {
-  const [userPosRef, userPos] = useAdvancedMarkerRef()
+  const [userPosRef, userPos] = useAdvancedMarkerRef();
   useEffect(() => {
-    if (!userPos) return
+    if (!userPos) return;
 
     navigator.geolocation.getCurrentPosition((position) => {
-      userPos.position = { lat: position.coords.latitude, lng: position.coords.longitude }
+      userPos.position = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
     });
-  }, [userPos])
+  }, [userPos]);
+
+  const [markers, setMarkers] = useState<Marker[]>([]);
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    let canceled = false;
+    fetch(
+      "https://taipei.codingbear.mcloudtw.com/api/warp_event/getByCategory",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          category: "#global",
+        }),
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (canceled) return;
+        setMarkers(
+          data.map((marker: Marker) => {
+            return {
+              lng: marker.lng,
+              lat: marker.lat,
+              title: marker.title,
+            };
+          })
+        );
+      });
+    return () => {
+      canceled = true;
+    };
+  }, []);
+
+  console.log("map rerenders");
 
   return (
-    <APIProvider apiKey={'AIzaSyCmUGZjf9yHKCet_XW7SC-68zaAJgNfgAQ'}>
-      <Map
-        style={{ width: '100vw', height: '100vh' }}
-        defaultCenter={{ lat: 25.03746, lng: 121.564558 }}
-        defaultZoom={12}
-        gestureHandling={'greedy'}
-        disableDefaultUI={true}
-        mapId={'470bd1b0506e5f98'}
-      >
-      </Map>
-      {/* <Marker ref={markerRef} position={{ lat: 53.54992, lng: 10.00678 }} /> */}
+    <>
+      <button onClick={() => setCount(count + 1)}>
+        click me!
+        {count}
+      </button>
+      <APIProvider apiKey={"AIzaSyCmUGZjf9yHKCet_XW7SC-68zaAJgNfgAQ"}>
+        <Map
+          style={{ width: "100vw", height: "100vh" }}
+          defaultCenter={{ lat: 25.03746, lng: 121.564558 }}
+          defaultZoom={12}
+          gestureHandling={"greedy"}
+          disableDefaultUI={true}
+          mapId={"470bd1b0506e5f98"}
+        ></Map>
 
-      {/* red default marker */}
-      <AdvancedMarker position={{ lat: 25.02310855716257, lng: 121.53516859015363 }}>
-        <h1>hello world</h1>
-      </AdvancedMarker>
+        {/* red default marker */}
+        {markers.map((marker, index) => {
+          console.log("marker", marker);
+          return (
+            <AdvancedMarker
+              key={index}
+              position={{ lat: marker.lat, lng: marker.lng }}
+            >
+              {/* <h1 className='text-5xl'>{marker.title}</h1> */}
+              <p className="text-5xl">{JSON.stringify(markers)}</p>
+              <div className="size-5 bg-red-700"></div>
+            </AdvancedMarker>
+          );
+        })}
 
-      <AdvancedMarker ref={userPosRef} position={{ lat: 25.02310855716257, lng: 121.53516859015363 }}>
-        {/* <UserPosition /> */}
-        <h1>。</h1>
-      </AdvancedMarker>
+        {markers.map((marker, index) => {
+          return (
+            <AdvancedMarker
+              key={index}
+              position={{
+                lat: marker.lng,
+                lng: marker.lat
+              }}
+            >
+              <h1 className="text-5xl">{marker.title}</h1>
+            </AdvancedMarker>
+          );
+        })}
 
-
-
-      {/* customized green marker */}
-      {/* <AdvancedMarker position={{ lat: 29.5, lng: -81.2 }}>
-        <Pin
-          background={'#0f9d58'}
-          borderColor={'#006425'}
-          glyphColor={'#60d98f'}
-        />
-      </AdvancedMarker> */}
-
-      {/* fully customized marker */}
-      {/* <AdvancedMarker position={{ lat: 29.5, lng: -81.2 }}> */}
-      {/* <img src={'https://cdn.discordapp.com/attachments/1270644363461918763/1281816819564417075/image.png?ex=66dd1870&is=66dbc6f0&hm=a6723bbe582a0e8b09c08bf798a2551367d307e660b02dbdb5732d3386be06c6&'} width={32} height={32} /> */}
-      {/* </AdvancedMarker> */}
-      <MyComponent />
-    </APIProvider>
+        <AdvancedMarker
+          ref={userPosRef}
+          position={{ lat: 25.02310855716257, lng: 121.53516859015363 }}
+        >
+          <h1>。</h1>
+        </AdvancedMarker>
+        <MyComponent />
+      </APIProvider>
+    </>
   );
 };
 
 export default App;
-
 
 // documents
 // 建立 marker
