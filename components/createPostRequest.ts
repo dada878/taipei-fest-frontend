@@ -37,9 +37,6 @@ export async function getDataFromElement(titleElement: HTMLInputElement, descrip
   var title = titleElement.value;
   var description = descriptionElement.value;
   var imageBase64 = await getFileDataURL(FileInputElement);
-  alert("title: " + title);
-  alert("description: " + description);
-  alert("imageBase64: " + imageBase64);
   return {
     title,
     description,
