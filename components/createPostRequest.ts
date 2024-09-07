@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios"
 import exp from "constants";
 
-function getFileDataURL(fileInputElement: HTMLInputElement): Promise<string> {
+export function getFileDataURL(fileInputElement: HTMLInputElement): Promise<string> {
   if (fileInputElement && fileInputElement.files && fileInputElement.files.length > 0) {
     const reader = new FileReader();
     const file = fileInputElement.files[0];
