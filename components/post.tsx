@@ -98,7 +98,7 @@ export default function Post({
       setIsOpen(false);
       setTimeout(() => {
           setCount(count + 1);
-      }, 600);
+      }, 450);
     });
   }
 
