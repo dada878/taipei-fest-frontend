@@ -19,13 +19,17 @@ const MyComponent = () => {
 
   useEffect(() => {
     if (!map) return;
-    navigator.geolocation.getCurrentPosition((position) => {
-      map.setCenter({
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
+    if (!navigator || !navigator.geolocation) {
+      alert("Geolocation is not supported");
+    } else {
+      navigator.geolocation.getCurrentPosition((position) => {
+        map.setCenter({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+        map.setZoom(18);
       });
-      map.setZoom(18);
-    });
+    }
     // here you can interact with the imperative maps API
   }, [map]);
 
@@ -61,12 +65,16 @@ const App = () => {
   useEffect(() => {
     if (!userPos) return;
 
-    navigator.geolocation.getCurrentPosition((position) => {
-      userPos.position = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      };
-    });
+    if (!navigator || !navigator.geolocation) {
+      alert("Geolocation is not supported");
+    } else {
+      navigator.geolocation.getCurrentPosition((position) => {
+        userPos.position = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+      });
+    }
   }, [userPos]);
 
   // const [markers, setMarkers] = useState<Marker[]>([]);
@@ -135,7 +143,9 @@ const App = () => {
                 lng: marker.lng,
               }}
             >
-              <Mark src={marker.image ?? "https://unsplash.it/640/425?random"} />
+              <Mark
+                src={marker.image ?? "https://unsplash.it/640/425?random"}
+              />
             </AdvancedMarker>
           );
         })}
