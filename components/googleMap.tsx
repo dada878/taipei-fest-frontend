@@ -131,7 +131,7 @@ const App = () => {
                 lng: marker.lng,
               }}
             >
-              <Mark src={marker.image} />
+              <Mark src={marker.image ?? "https://unsplash.it/640/425?random"} />
             </AdvancedMarker>
           );
         })}
