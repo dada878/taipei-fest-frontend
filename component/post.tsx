@@ -4,17 +4,23 @@ import style from "./use.module.css"
 import "./test"
 import {submit} from "./test"
 export default function Pinsheet() {
-    /*const textareaElement = useRef(null);
+    const textareaElement = useRef(null);
 
-    useEffect(()=>{
-        if(textareaElement) { 
-            textareaElement.addEventListener('input', (e) => {
-            textareaElement.style.height = '100px';
-            textareaElement.style.height = e.target.scrollHeight + 'px';
-    });
-        }
+    useEffect(function(){
+        if(!textareaElement.current) return; 
+        var currentElement: HTMLTextAreaElement = textareaElement.current;
+        // textareaElement.addEventListener('input', (e) => {
+        //     textareaElement.style.height = '100px';
+        //     textareaElement.style.height = e.target.scrollHeight + 'px';
+        // });
+        currentElement.addEventListener('input', function(e) {
+            if (!e.target) return;
+            if (!(e.target instanceof HTMLTextAreaElement)) return;
+            currentElement.style.height = '100px';
+            currentElement.style.height = e.target.scrollHeight + 'px';
+        });
     }, [textareaElement])
-    */
+    
     return(
         <div>
             <div className={style.bg}>
