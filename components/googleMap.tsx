@@ -70,14 +70,19 @@ const App = () => {
       alert("Geolocation is not supported");
       setDebugMessage("Geolocation is not supported");
     } else {
-      setDebugMessage("Trying to get user position");
-      navigator.geolocation.getCurrentPosition((position) => {
-        setDebugMessage("Got user position");
-        userPos.position = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-      });
+      try {
+
+        setDebugMessage("Trying to get user position");
+        navigator.geolocation.getCurrentPosition((position) => {
+          setDebugMessage("Got user position");
+          userPos.position = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+        });
+      } catch (e) {
+        setDebugMessage("Error: " + (e as any).message);
+      }
     }
   }, [userPos]);
 
