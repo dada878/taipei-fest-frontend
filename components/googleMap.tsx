@@ -121,6 +121,11 @@ const App = () => {
           marker={markers[selectedMarkerIndex]}
         />
       )}
+      <p>
+        {
+          !navigator || !navigator.geolocation ? "Geolocation is not supported" : "Geolocation is supported"
+        }
+      </p>
       <APIProvider apiKey={"AIzaSyBjFJKlcm_hwYdRGWMC7ih9DMYHZYO8hhI"}>
         <Map
           style={{ width: "100vw", height: "100vh" }}
