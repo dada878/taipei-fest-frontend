@@ -12,6 +12,7 @@ import {
 } from '@vis.gl/react-google-maps';
 
 import UserPosition from './userPosition';
+import Mark from './mark';
 
 const MyComponent = () => {
   const map = useMap();
@@ -53,13 +54,13 @@ const App = () => {
 
       {/* red default marker */}
       <AdvancedMarker position={{ lat: 25.02310855716257, lng: 121.53516859015363 }}>
-        <h1>hello world</h1>
+        <Mark src='https://media.discordapp.net/attachments/1252593918785224795/1281445403559985275/IMG_5924.jpg?ex=66dd1008&is=66dbbe88&hm=95172cab1e4cf3685d35ad3505e1a5a7890b72eb5871d02cd5419dc874056590&=&format=webp&width=486&height=662' scale={1}/>
       </AdvancedMarker>
 
-      <AdvancedMarker ref={userPosRef} position={{ lat: 25.02310855716257, lng: 121.53516859015363 }}>
-        {/* <UserPosition /> */}
+      {/* <AdvancedMarker ref={userPosRef} position={{ lat: 25.02310855716257, lng: 121.53516859015363 }}>
+        <UserPosition />
         <h1>。</h1>
-      </AdvancedMarker>
+      </AdvancedMarker> */}
 
 
 
