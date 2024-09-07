@@ -1,6 +1,37 @@
 import React from "react";
 
-export default async function request(titleElement: React.ReactElement, descriptionElement: React.ReactElement, FileInputElement: React.ReactElement) {
-  // titleElement descriptionElement FileInputElement
+function getFileDataURL(fileInputElement: HTMLInputElement): Promise<string> {
+  if (fileInputElement && fileInputElement.files && fileInputElement.files.length > 0) {
+    const reader = new FileReader();
+    const file = fileInputElement.files[0];
 
+    return new Promise<string>((resolve, reject) => {
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        if (e.target && e.target.result) {
+          resolve(e.target.result as string);
+        } else {
+          reject(new Error("Error reading file"));
+        }
+      };
+
+      reader.onerror = (error) => {
+        reject(error);
+      };
+
+      reader.readAsDataURL(file);
+    });
+  } else {
+    return Promise.reject(new Error("No file selected"));
+  }
+}
+
+
+
+export default async function request(titleElement: HTMLInputElement, descriptionElement: HTMLInputElement, FileInputElement: HTMLInputElement, userId: string) {
+  var title = titleElement.value;
+  var description = descriptionElement.value;
+  var imageBase64 = await getFileDataURL(FileInputElement);
+  alert("title: " + title);
+  alert("description: " + description);
+  alert("imageBase64: " + imageBase64);
 }
