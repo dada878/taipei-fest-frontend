@@ -1,0 +1,28 @@
+
+.re {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: orange;
+    border-radius: 20px;
+}
+
+.img {
+    width: 180px;
+    height: 180px;
+    background-color: #30475e;
+    z-index: 1000;
+    border-radius: 10px;
+}
+
+.adv {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background-color: orange;
+    transform: rotate(45deg);
+    bottom: -15px;
+}
