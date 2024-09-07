@@ -48,7 +48,7 @@ export async function getDataFromElement(titleElement: HTMLInputElement, descrip
 }
 
 export async function sendPostRequest(data: PostData, lng: number, lat: number, category: string) {
-  const response = await axios.post("/api/post", {
+  const response = await axios.post("https://taipei.codingbear.mcloudtw.com/api/warp_event", {
     title: data.title,
     description: data.description,
     base64image: data.imageBase64,
