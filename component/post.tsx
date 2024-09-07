@@ -7,21 +7,19 @@ import qq from "../public/qq.png"
 import Image from "next/image";
 export default function Pinsheet() {
     const textareaElement = useRef(null);
+    const [textareaContent, setTextareaContent] = React.useState("");
 
     useEffect(function(){
         if(!textareaElement.current) return; 
         var currentElement: HTMLTextAreaElement = textareaElement.current;
-        // textareaElement.addEventListener('input', (e) => {
-        //     textareaElement.style.height = '100px';
-        //     textareaElement.style.height = e.target.scrollHeight + 'px';
-        // });
-        currentElement.addEventListener('input', function(e) {
-            if (!e.target) return;
-            if (!(e.target instanceof HTMLTextAreaElement)) return;
-            currentElement.style.height = '100px';
-            currentElement.style.height = e.target.scrollHeight + 'px';
-        });
-    }, [textareaElement])
+        
+        currentElement.oninput = function(){
+            console.log(currentElement.scrollHeight)
+            setTextareaContent(currentElement.value);
+            currentElement.style.height = "";
+            currentElement.style.height = Math.min(currentElement.scrollHeight) + "px";
+        }
+    }, [])
     
     return(
         <div className={style.all}>
@@ -33,7 +31,7 @@ export default function Pinsheet() {
                     <input type="text" placeholder="請輸入標題..."  name="title"></input>
                 </div>
                 <div className={style.des}>
-                    <textarea placeholder="請輸入描述..." name="description"></textarea>
+                    <textarea ref={textareaElement} placeholder="請輸入描述..." name="description"></textarea>
                 </div>
                 <div className={style.pic}>
                     <Image src="/../public/qq.png" alt="" width={300} height={300} />
