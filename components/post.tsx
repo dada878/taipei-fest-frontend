@@ -12,7 +12,8 @@ import { X } from "lucide-react";
 export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
     const titleElement = useRef(null)
     const descriptionElement = useRef(null);
-    const fileInputElement = useRef(null)
+    const fileInputElement = useRef(null);
+    const tagElement = useRef<HTMLSelectElement | null>(null);
 
     const [textareaContent, setTextareaContent] = React.useState("");
 
@@ -32,6 +33,7 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
         if (!titleElement.current) return
         if (!descriptionElement.current) return
         if (!fileInputElement.current) return
+        if (!tagElement.current) return
 
         let lng = 0
         let lat = 0
@@ -39,10 +41,8 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
             lng = position.coords.longitude;
             lat = position.coords.latitude;
         });
-
         let postData = await getDataFromElement(titleElement.current, descriptionElement.current, fileInputElement.current, 'user')
-
-        await sendPostRequest(postData, lng, lat, "#global #A #B");
+        await sendPostRequest(postData, lng, lat, tagElement.current.value);
     }
 
     return (
@@ -57,14 +57,14 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
                 <div className={style.des}>
                     <textarea ref={descriptionElement} placeholder="請輸入描述..." name="description"></textarea>
                 </div>
-                <select name="tag" className={style.tags}>
-                    <option value="good">好康</option>
-                    <option value="daily">日常</option>
-                    <option value="view">景點</option>
-                    <option value="activity">活動</option>
-                    <option value="road-conditions">路況</option>
-                    <option value="report">檢舉</option>
-                    <option value="car-accident">車禍</option>
+                <select name="tag" className={style.tags} ref={tagElement}>
+                    <option value="#good">好康</option>
+                    <option value="#daily">日常</option>
+                    <option value="#view">景點</option>
+                    <option value="#activity">活動</option>
+                    <option value="#road-conditions">路況</option>
+                    <option value="#report">檢舉</option>
+                    <option value="#car-accident">車禍</option>
                 </select>
                 <input ref={fileInputElement} type="file" accept="image/png, image/gif, image/jpeg" />
                 <div className={style.pic}>
