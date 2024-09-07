@@ -82,6 +82,8 @@ const App = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMarkerIndex, setSelectedMarkerIndex] = useState(0);
 
+  const [scale, setScale] = useState(1);
+
   const {
     data: markers,
     isPending,
@@ -122,6 +124,13 @@ const App = () => {
           style={{ width: "100vw", height: "100vh" }}
           defaultCenter={{ lat: 25.03746, lng: 121.564558 }}
           defaultZoom={12}
+          onZoomChanged={(e) => {
+            const zoomLevel = e.map.getZoom();
+            if (!zoomLevel) return;
+            const scaleLevel = Math.pow(zoomLevel / 18, 2);
+            console.log(zoomLevel, scaleLevel);
+            setScale(scaleLevel);
+          }}
           gestureHandling={"greedy"}
           disableDefaultUI={true}
           mapId={"470bd1b0506e5f98"}
@@ -140,6 +149,7 @@ const App = () => {
               }}
             >
               <Mark
+                scale={scale}
                 src={marker.base64image ?? "https://unsplash.it/640/425?random"}
               />
             </AdvancedMarker>
