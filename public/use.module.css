@@ -1,6 +1,6 @@
 .all{
     display: flex;
-    background-color: black;
+    background-color: rgba(0,0,0,0);
     justify-content: center;
     flex-wrap: nowrap;
     height: 100vh;
