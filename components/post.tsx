@@ -9,7 +9,7 @@ import {
   sendPostRequest,
   getFileDataURL,
 } from "./createPostRequest";
-import { X } from "lucide-react";
+import { LoaderCircle, Upload, X } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function Post({
@@ -23,9 +23,11 @@ export default function Post({
   const descriptionElement = useRef(null);
   const fileInputElement = useRef(null);
   const tagElement = useRef<HTMLSelectElement | null>(null);
+  const [imageUploaded, setImageUploaded] = useState(false);
   const imgRef = useRef(null);
 
   const [count, setCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -50,11 +52,13 @@ export default function Post({
     const base64 = await getFileDataURL(fileInputElement.current);
     var currentImage: HTMLImageElement = imgRef.current;
     currentImage.src = base64;
+    setImageUploaded(true);
     var currentInput: HTMLInputElement = fileInputElement.current;
     currentInput.classList.add("hidden");
   }
 
   async function handleClick() {
+    setIsLoading(true);
     console.log("click");
     if (!titleElement.current) return;
     console.log("click", 2);
@@ -97,8 +101,10 @@ export default function Post({
       });
       setIsOpen(false);
       setTimeout(() => {
-          setCount(count + 1);
+        setCount(count + 1);
+        setImageUploaded(false);
       }, 450);
+      setIsLoading(false);
     });
   }
 
@@ -123,14 +129,19 @@ export default function Post({
             name="title"
           ></input>
         </div>
-        <div className={style.des}>
-          <textarea
+        <div className={style.title}>
+          <input
             ref={descriptionElement}
+            type="text"
             placeholder="請輸入描述..."
             name="description"
-          ></textarea>
+          ></input>
         </div>
-        <select name="tag" className={style.tags} ref={tagElement}>
+        <select
+          name="tag"
+          className="bg-gray-100 rounded-md p-3"
+          ref={tagElement}
+        >
           <option value="#good #global">好康</option>
           <option value="#daily #global">日常</option>
           <option value="#view #global">景點</option>
@@ -139,17 +150,44 @@ export default function Post({
           <option value="#report #global">檢舉</option>
           <option value="#car-accident #global">車禍</option>
         </select>
-        <input
-          onChange={handleChange}
-          ref={fileInputElement}
-          type="file"
-          accept="image/png, image/gif, image/jpeg"
-        />
-        <div className={style.pic}>
+        <div
+          className={
+            "bg-gray-100 rounded-md" +
+            " " +
+            (imageUploaded ? "hidden" : "relative")
+          }
+        >
+          <input
+            onChange={handleChange}
+            ref={fileInputElement}
+            type="file"
+            className="p-2 opacity-0"
+            accept="image/png, image/gif, image/jpeg"
+          />
+          <div className="flex px-3 gap-3 absolute top-1/2 -translate-y-1/2 items-center pointer-events-none">
+            <Upload />
+            <span>上傳圖片</span>
+          </div>
+        </div>
+        <div className={style.img + " " + (imageUploaded ? "rounded-md" : "hidden")}>
           <img ref={imgRef} src="" alt="" />
         </div>
         <div className={style.butt}>
-          <button onClick={handleClick}>發布動態</button>
+          <button onClick={handleClick} disabled={isLoading}
+            className={
+              "transition-all duration-300 ease-in-out " +
+              (isLoading ? "pointer-events-none opacity-50" : "")
+            }
+          >
+            {
+              isLoading ? (
+                <div className="flex items-center justify-center gap-3">
+                  <LoaderCircle  className="animate-spin" />
+                  處理中
+                </div>
+              ) : "發布動態"
+            }
+          </button>
         </div>
       </div>
 
