@@ -14,7 +14,7 @@ export default function Pinsheet() {
         var currentElement: HTMLTextAreaElement = textareaElement.current;
         
         currentElement.oninput = function(){
-            console.log(currentElement.scrollHeight)
+            console.log(currentElement.scrollHeight);
             setTextareaContent(currentElement.value);
             currentElement.style.height = "";
             currentElement.style.height = Math.min(currentElement.scrollHeight) + "px";

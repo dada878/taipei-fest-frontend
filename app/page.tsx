@@ -7,7 +7,7 @@ import CreatePost from '../components/createPost';
 
 // import Pinsheet from "../components/post"
 export default function Home() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   return <>
 
     <DetailCard isOpen={isOpen} setIsOpen={setIsOpen} />
