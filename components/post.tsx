@@ -33,8 +33,16 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
         if (!descriptionElement.current) return
         if (!fileInputElement.current) return
 
-        var postData = await getDataFromElement(titleElement.current, descriptionElement.current, fileInputElement.current, 'user')
-        await sendPostRequest(postData, 123.456, 456.789, "#global #A #B");
+        let lng = 0
+        let lat = 0
+        navigator.geolocation.getCurrentPosition((position) => {
+            lng = position.coords.longitude;
+            lat = position.coords.latitude;
+        });
+
+        let postData = await getDataFromElement(titleElement.current, descriptionElement.current, fileInputElement.current, 'user')
+
+        await sendPostRequest(postData, lng, lat, "#global #A #B");
     }
 
     return (
@@ -42,7 +50,7 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
             opacity: (isOpen ? '1' : '0'),
             backgroundColor: (isOpen ? 'rgba(0, 0, 0, 0.55)' : 'rgba(0, 0, 0, 0)'),
         }}>
-            <div className={style.bg} style={{bottom: (isOpen ? '0' : '-60vh')}}>
+            <div className={style.bg} style={{ bottom: (isOpen ? '0' : '-60vh') }}>
                 <div className={style.title}>
                     <input ref={titleElement} type="text" placeholder="請輸入標題..." name="title"></input>
                 </div>
@@ -58,7 +66,7 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
                 </div>
             </div>
 
-            <span style={{position: 'absolute', top: '0.5em', right: '0.5em', color: 'white'}} onClick={() => { setIsOpen(false) }}>
+            <span style={{ position: 'absolute', top: '0.5em', right: '0.5em', color: 'white' }} onClick={() => { setIsOpen(false) }}>
                 <X size={'2.5em'} />
             </span>
         </div>
