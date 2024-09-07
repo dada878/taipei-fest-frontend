@@ -1,14 +1,12 @@
 "use client";
 
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/components/providers/query-provider";
-import dynamic from "next/dynamic";
 
 const inter = Inter({ subsets: ["latin"] });
 
-function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -21,7 +19,3 @@ function RootLayout({
     </html>
   );
 }
-
-export default dynamic(() => Promise.resolve(RootLayout), {
-  ssr: false,
-})

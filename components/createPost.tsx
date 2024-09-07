@@ -6,7 +6,6 @@ export default function CreatePost() {
   const [isOpen, setIsOpen] = useState(false)
 
   function handleClick() {
-    console.log('test')
     setIsOpen(true)
   }
 

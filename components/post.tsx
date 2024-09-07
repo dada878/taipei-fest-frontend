@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Dispatch, SetStateAction } from 'react';
 import style from "./use.module.css"
 import Image from "next/image";
@@ -11,7 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 
 export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
-    const titleElement = useRef(null)
+    const titleElement = useRef(null);
     const descriptionElement = useRef(null);
     const fileInputElement = useRef(null);
     const tagElement = useRef<HTMLSelectElement | null>(null);
@@ -19,14 +19,13 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
 
     const queryClient = useQueryClient();
 
-    const [textareaContent, setTextareaContent] = React.useState("");
+    const [textareaContent, setTextareaContent] = useState("");
 
     useEffect(function () {
         if (!descriptionElement.current) return;
         var currentElement: HTMLTextAreaElement = descriptionElement.current;
 
         currentElement.oninput = function () {
-            console.log(currentElement.scrollHeight);
             setTextareaContent(currentElement.value);
             currentElement.style.height = "";
             currentElement.style.height = Math.min(currentElement.scrollHeight) + "px";
@@ -45,10 +44,15 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
     }
 
     async function handleClick() {
+        console.log("click")
         if (!titleElement.current) return
+        console.log("click", 2)
         if (!descriptionElement.current) return
+        console.log("click", 3)
         if (!fileInputElement.current) return
+        console.log("click", 4)
         if (!tagElement.current) return
+        console.log("click", 5)
 
         let lng = 0
         let lat = 0
@@ -56,13 +60,17 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
             alert("Geolocation is not supported");
             return;
         }
+        console.log("click", 6)
         navigator.geolocation.getCurrentPosition(async (position) => {
             lng = position.coords.longitude;
             lat = position.coords.latitude;
 
             if (!titleElement.current) return
+            console.log("click", 7)
             if (!descriptionElement.current) return
+            console.log("click", 8)
             if (!fileInputElement.current) return
+            console.log("click", 9)
 
             let postData = await getDataFromElement(titleElement.current, descriptionElement.current, fileInputElement.current, 'user')
 
