@@ -9,10 +9,10 @@ import { getDataFromElement, sendPostRequest } from './createPostRequest'
 
 
 export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen: Dispatch<SetStateAction<boolean>> }) {
-    const descriptionElement = useRef(null);
     const titleElement = useRef(null)
+    const descriptionElement = useRef(null);
     const fileInputElement = useRef(null)
-    // const descriptionElement = useRef(null)
+
     const [textareaContent, setTextareaContent] = React.useState("");
 
     useEffect(function () {

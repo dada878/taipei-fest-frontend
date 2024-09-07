@@ -1,6 +1,7 @@
 .all{
     display: flex;
-    background-color: rgba(0,0,0,0);
+    background-color: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(8px);
     justify-content: center;
     flex-wrap: nowrap;
     height: 100vh;
