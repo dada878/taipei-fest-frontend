@@ -1,0 +1,37 @@
+
+.bg{
+    border-radius: 23px;
+    width: 100vw;
+    height: 100%;
+    background-color: #ffffff;
+
+    padding: 20px;
+}
+
+.bar{
+    width: 272px;
+}
+
+.title{
+    margin: 10px;
+}
+
+.title input{
+    width: 100%;
+}
+
+.des{
+    margin:10px;
+    visibility: hidden;
+}
+
+.des textarea{
+    width: 100%;
+    min-height: 48px;
+    height: fit-content;
+    padding: 0;
+}
+
+.pic{
+    width: 100%;
+}
