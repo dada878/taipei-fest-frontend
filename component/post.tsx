@@ -1,22 +1,28 @@
 'use client';
 import React, { useEffect, useRef } from "react";
-import style from "./use.module.css"
+import style from "../public/use.module.css"
 import "./test"
 import {submit} from "./test"
+// import qq from "../public/qq.png"
+import Image from "next/image";
 export default function Pinsheet() {
-    /*const textareaElement = useRef(null);
+    const textareaElement = useRef(null);
+    const [textareaContent, setTextareaContent] = React.useState("");
 
-    useEffect(()=>{
-        if(textareaElement) { 
-            textareaElement.addEventListener('input', (e) => {
-            textareaElement.style.height = '100px';
-            textareaElement.style.height = e.target.scrollHeight + 'px';
-    });
+    useEffect(function(){
+        if(!textareaElement.current) return; 
+        var currentElement: HTMLTextAreaElement = textareaElement.current;
+        
+        currentElement.oninput = function(){
+            console.log(currentElement.scrollHeight)
+            setTextareaContent(currentElement.value);
+            currentElement.style.height = "";
+            currentElement.style.height = Math.min(currentElement.scrollHeight) + "px";
         }
-    }, [textareaElement])
-    */
+    }, [])
+    
     return(
-        <div>
+        <div className={style.all}>
             <div className={style.bg}>
                 <div className={style.bar}>
 
@@ -25,10 +31,10 @@ export default function Pinsheet() {
                     <input type="text" placeholder="請輸入標題..."  name="title"></input>
                 </div>
                 <div className={style.des}>
-                    <textarea placeholder="請輸入描述..." name="description"></textarea>
+                    <textarea ref={textareaElement} placeholder="請輸入描述..." name="description"></textarea>
                 </div>
                 <div className={style.pic}>
-                    <img src=""></img>
+                    <Image src="/../public/qq.png" alt="" width={300} height={300} />
                 </div>
                 <div className={style.butt}>
                     <button onClick={submit}>發布動態</button>
