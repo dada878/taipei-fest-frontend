@@ -29,6 +29,8 @@ export default function Post({
   const [count, setCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
+  const parentElement = useRef(null);
+
   const queryClient = useQueryClient();
 
   const [textareaContent, setTextareaContent] = useState("");
@@ -111,6 +113,12 @@ export default function Post({
   return (
     <div
       className={style.all}
+      ref={parentElement}
+      onClickCapture={(e) => {
+        if (e.target === parentElement.current) {
+          setIsOpen(false);
+        }
+      }}
       style={{
         opacity: isOpen ? "1" : "0",
         backgroundColor: isOpen ? "rgba(0, 0, 0, 0.55)" : "rgba(0, 0, 0, 0)",
@@ -190,20 +198,6 @@ export default function Post({
           </button>
         </div>
       </div>
-
-      <span
-        style={{
-          position: "absolute",
-          top: "0.5em",
-          right: "0.5em",
-          color: "white",
-        }}
-        onClick={() => {
-          setIsOpen(false);
-        }}
-      >
-        <X size={"2.5em"} />
-      </span>
     </div>
   );
 }
