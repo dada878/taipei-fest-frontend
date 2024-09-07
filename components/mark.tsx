@@ -8,7 +8,7 @@ export default function Mark({
   scale?: number;
 }) {
   return (
-    <div className={style.re}>
+    <div className={style.re} style={{ transform: `scale(${scale})` }}>
       <div
         className={style.img}
         style={{ backgroundImage: `url('${src}'` }}
