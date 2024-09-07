@@ -37,7 +37,7 @@ export default function DetailCard({
             : "opacity-0 pointer-events-none scale-90"
         }`}
       >
-        <div className="bg-white p-6 flex flex-col gap-4 pt-10">
+        <div className="bg-white p-6 flex flex-col gap-4 pt-10 h-full">
           <div className="flex gap-3 items-end">
             <h2 className="text-3xl font-bold">{marker.title}</h2>
             <p className="text-gray-600">
@@ -48,7 +48,7 @@ export default function DetailCard({
             {marker.description ?? "(沒有任何描述)"}
           </p>
           <Image
-            src={marker.image ?? "https://unsplash.it/640/425?random"}
+            src={marker.base64image ?? "https://unsplash.it/640/425?random"}
             width={200}
             height={300}
             alt="image"

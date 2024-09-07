@@ -51,7 +51,7 @@ export interface Marker {
   title: string;
   time: number;
   description?: string;
-  image: string;
+  base64image: string;
   __v: number;
   _id: string;
   comments: Comment[];
@@ -62,18 +62,27 @@ export interface Marker {
 
 const App = () => {
   const [userPosRef, userPos] = useAdvancedMarkerRef();
+  const [debugMessage, setDebugMessage] = useState("No message");
   useEffect(() => {
     if (!userPos) return;
 
     if (!navigator || !navigator.geolocation) {
       alert("Geolocation is not supported");
+      setDebugMessage("Geolocation is not supported");
     } else {
-      navigator.geolocation.getCurrentPosition((position) => {
-        userPos.position = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-      });
+      try {
+
+        setDebugMessage("Trying to get user position");
+        navigator.geolocation.getCurrentPosition((position) => {
+          setDebugMessage("Got user position");
+          userPos.position = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+        });
+      } catch (e) {
+        setDebugMessage("Error: " + (e as any).message);
+      }
     }
   }, [userPos]);
 
@@ -123,7 +132,7 @@ const App = () => {
       )}
       <p>
         {
-          (navigator && navigator.geolocation) ? `Geolocation is supported ${navigator.toString()}` : "Geolocation is not supported!"
+          debugMessage
         }
       </p>
       <APIProvider apiKey={"AIzaSyBjFJKlcm_hwYdRGWMC7ih9DMYHZYO8hhI"}>
@@ -149,7 +158,7 @@ const App = () => {
               }}
             >
               <Mark
-                src={marker.image ?? "https://unsplash.it/640/425?random"}
+                src={marker.base64image ?? "https://unsplash.it/640/425?random"}
               />
             </AdvancedMarker>
           );
