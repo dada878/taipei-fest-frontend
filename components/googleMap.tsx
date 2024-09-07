@@ -123,7 +123,7 @@ const App = () => {
       )}
       <p>
         {
-          (navigator && navigator.geolocation) ? "Geolocation is supported" : "Geolocation is not supported"
+          (navigator && navigator.geolocation) ? `Geolocation is supported ${navigator.toString()}` : "Geolocation is not supported!"
         }
       </p>
       <APIProvider apiKey={"AIzaSyBjFJKlcm_hwYdRGWMC7ih9DMYHZYO8hhI"}>
