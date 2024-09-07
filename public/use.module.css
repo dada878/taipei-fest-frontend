@@ -27,7 +27,7 @@
 }
 
 .title input{
-    min-width: 100%;
+    width:300px;
     font-size:medium;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .des textarea{
-    min-width: 100%;
+    width: 300px;
     min-height: 48px;
     height: fit-content;
     padding: 0;
