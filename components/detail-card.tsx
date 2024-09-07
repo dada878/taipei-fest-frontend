@@ -1,6 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import TimeAgo from 'javascript-time-ago';
+import zhHant from 'javascript-time-ago/locale/zh-Hant';
+
 import {
   MessageCircle,
   Send,
@@ -9,24 +12,33 @@ import {
   ThumbsUp,
   X,
 } from "lucide-react";
+import { Marker } from "./googleMap";
+import { on } from "events";
 
 export default function DetailCard({
   isOpen,
   setIsOpen,
+  marker,
 }: {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  marker: Marker;
 }) {
+  TimeAgo.addDefaultLocale(zhHant);
+  const timeAgo = new TimeAgo('zh-Hant');
+
+
+
   return (
     <>
       {isOpen && (
         <div className="absolute left-0 right-0 bottom-0 top-0 w-full z-10 bg-white p-6 flex flex-col gap-4 pt-10">
           <div className="flex gap-3 items-end">
-            <h2 className="text-3xl font-bold">是孔雀欸！</h2>
-            <p className="text-gray-600">5 分鐘之前・起O哥</p>
+            <h2 className="text-3xl font-bold">{marker.title}</h2>
+            <p className="text-gray-600">{timeAgo.format(new Date(marker.time))}</p>
           </div>
           <p className="text-gray-600">
-            孔雀！孔雀！孔雀！孔雀！孔雀！孔雀！孔雀！孔雀！孔雀！孔雀！孔雀！孔雀！孔雀！孔雀！孔雀！孔雀！孔雀！孔雀！孔雀...
+            {marker.description ?? "(沒有任何描述)"}
           </p>
           <Image
             src="https://unsplash.it/640/425?random"
@@ -35,7 +47,16 @@ export default function DetailCard({
             alt="image"
             className="w-full rounded-md"
           />
-          <ActionButtons />
+          <ActionButtons
+            likeCount={0}
+            dislikeCount={0}
+            shareCount={0}
+            commentCount={0}
+            onLike={() => {}}
+            onDislike={() => {}}
+            onShare={() => {}}
+            onComment={() => {}}
+          />
           <CommentBox />
           <div className="flex flex-col gap-3">
             <Comment name="起O哥" content="羽毛怎麼掉了 QAQ" />
@@ -75,28 +96,46 @@ function Comment({ name, content }: { name: string; content: string }) {
   );
 }
 
-function ActionButtons() {
+function ActionButtons({
+  likeCount,
+  dislikeCount,
+  shareCount,
+  commentCount,
+  onLike,
+  onDislike,
+  onShare,
+  onComment,
+}: {
+  likeCount: number;
+  dislikeCount: number;
+  shareCount: number;
+  commentCount: number;
+  onLike: () => void;
+  onDislike: () => void;
+  onShare: () => void;
+  onComment: () => void;
+}) {
   return (
     <div className="flex justify-around">
       <ActionButton
-        icon={<ThumbsUp size={24} className="text-gray-600" />}
-        number={5}
-        onClick={() => {}}
+      icon={<ThumbsUp size={24} className="text-gray-600" />}
+      number={likeCount}
+      onClick={onLike}
       />
       <ActionButton
-        icon={<ThumbsDown size={24} className="text-gray-600" />}
-        number={5}
-        onClick={() => {}}
+      icon={<ThumbsDown size={24} className="text-gray-600" />}
+      number={dislikeCount}
+      onClick={onDislike}
       />
       <ActionButton
-        icon={<Share2 size={24} className="text-gray-600" />}
-        number={5}
-        onClick={() => {}}
+      icon={<Share2 size={24} className="text-gray-600" />}
+      number={shareCount}
+      onClick={onShare}
       />
       <ActionButton
-        icon={<MessageCircle size={24} className="text-gray-600" />}
-        number={5}
-        onClick={() => {}}
+      icon={<MessageCircle size={24} className="text-gray-600" />}
+      number={commentCount}
+      onClick={onComment}
       />
     </div>
   );
