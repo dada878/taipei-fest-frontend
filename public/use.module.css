@@ -29,6 +29,10 @@
 .title input{
     width:300px;
     font-size:medium;
+    outline: none;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-color: #727272;
 }
 
 .des{
@@ -43,6 +47,10 @@
     font-size: medium;
     visibility: inherit;
     resize: none;
+    outline: none;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-color: #727272;
 }
 
 .pic{
