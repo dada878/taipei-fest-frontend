@@ -45,6 +45,15 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
                 <div className={style.des}>
                     <textarea ref={descriptionElement} placeholder="請輸入描述..." name="description"></textarea>
                 </div>
+                <select name="tag" className={style.tags}>
+                    <option value="car-accident">車禍</option>
+                    <option value="activity">活動</option>
+                    <option value="report">檢舉</option>
+                    <option value="daily">日常</option>
+                    <option value="view">景點</option>
+                    <option value="road-conditions">路況</option>
+                    <option value="good">好康</option>
+                </select>
                 <input ref={fileInputElement} type="file" accept="image/png, image/gif, image/jpeg" />
                 <div className={style.pic}>
                     <Image src="/qq.png" alt="" width={300} height={300} />
