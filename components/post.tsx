@@ -49,6 +49,10 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
 
         let lng = 0
         let lat = 0
+        if (!navigator || !navigator.geolocation) {
+            alert("Geolocation is not supported");
+            return;
+        }
         navigator.geolocation.getCurrentPosition((position) => {
             lng = position.coords.longitude;
             lat = position.coords.latitude;
