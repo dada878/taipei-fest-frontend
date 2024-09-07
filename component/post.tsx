@@ -6,17 +6,23 @@ import {submit} from "./test"
 import qq from "../public/qq.png"
 import Image from "next/image";
 export default function Pinsheet() {
-    /*const textareaElement = useRef(null);
+    const textareaElement = useRef(null);
 
-    useEffect(()=>{
-        if(textareaElement) { 
-            textareaElement.addEventListener('input', (e) => {
-            textareaElement.style.height = '100px';
-            textareaElement.style.height = e.target.scrollHeight + 'px';
-    });
-        }
+    useEffect(function(){
+        if(!textareaElement.current) return; 
+        var currentElement: HTMLTextAreaElement = textareaElement.current;
+        // textareaElement.addEventListener('input', (e) => {
+        //     textareaElement.style.height = '100px';
+        //     textareaElement.style.height = e.target.scrollHeight + 'px';
+        // });
+        currentElement.addEventListener('input', function(e) {
+            if (!e.target) return;
+            if (!(e.target instanceof HTMLTextAreaElement)) return;
+            currentElement.style.height = '100px';
+            currentElement.style.height = e.target.scrollHeight + 'px';
+        });
     }, [textareaElement])
-    */
+    
     return(
         <div className={style.all}>
             <div className={style.bg}>
