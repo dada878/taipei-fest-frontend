@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import post from './post'
+import Post from './post'
 
 export default function CreatePost() {
   return <>
@@ -7,6 +7,9 @@ export default function CreatePost() {
       <div style={{ padding: '0.5em', width: '5em', height: '5em', borderRadius: '50%', backgroundColor: 'white', boxShadow: '0.25em 0.25em 0.5em rgba(0, 0, 0, 30% )' }}>
         <Plus size={'4em'} color="#959595" />
       </div>
+    </div>
+    <div style={{position: 'fixed', top: '0'}}>
+      <Post />
     </div>
   </>
 }

@@ -10,8 +10,8 @@ export default function Home() {
   const [isOpen, setIsOpen] = useState(false);
   return <>
 
-    <DetailCard isOpen={isOpen} setIsOpen={setIsOpen} />
     <GoogleMap />
+    <DetailCard isOpen={isOpen} setIsOpen={setIsOpen} />
     <CreatePost />
   </>
 }
