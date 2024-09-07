@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 import style from "../public/use.module.css"
 import "./test"
 import {submit} from "./test"
-import qq from "../public/qq.png"
+// import qq from "../public/qq.png"
 import Image from "next/image";
 export default function Pinsheet() {
     const textareaElement = useRef(null);

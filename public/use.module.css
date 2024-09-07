@@ -5,6 +5,7 @@
     flex-wrap: nowrap;
     height: 100vh;
     width: 100vw;
+    align-items: end;
     position: relative;
 }
 .bg{
