@@ -78,7 +78,8 @@
 .tags{
     display: flex;
     width: 300px;
-    height: 25px;
-    background-color: #959595;
+    background-color: #dadada;
     margin: 10px;
+    border-radius: 5px;
+    padding: 10px;
 }
