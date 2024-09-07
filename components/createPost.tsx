@@ -16,7 +16,7 @@ export default function CreatePost() {
         <Plus size={'4em'} color="#959595" />
       </div>
     </div>
-    <div style={{position: 'fixed', top: '0'}}>
+    <div style={{position: 'fixed', top: '0', pointerEvents: (isOpen ? 'auto': 'none')}}>
       <Post isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   </>

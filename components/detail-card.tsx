@@ -31,52 +31,92 @@ export default function DetailCard({
   return (
     <>
       {isOpen && (
-        <div className="absolute left-0 right-0 bottom-0 top-0 w-full z-10 bg-white p-6 flex flex-col gap-4 pt-10">
-          <div className="flex gap-3 items-end">
-            <h2 className="text-3xl font-bold">{marker.title}</h2>
+        <div className="absolute left-0 right-0 bottom-0 top-0 z-10">
+          <div className="bg-white p-6 flex flex-col gap-4 pt-10">
+            <div className="flex gap-3 items-end">
+              <h2 className="text-3xl font-bold">{marker.title}</h2>
+              <p className="text-gray-600">
+                {timeAgo.format(new Date(marker.time))}
+              </p>
+            </div>
             <p className="text-gray-600">
-              {timeAgo.format(new Date(marker.time))}
+              {marker.description ?? "(沒有任何描述)"}
             </p>
-          </div>
-          <p className="text-gray-600">
-            {marker.description ?? "(沒有任何描述)"}
-          </p>
-          <Image
-            src="https://unsplash.it/640/425?random"
-            width={200}
-            height={300}
-            alt="image"
-            className="w-full rounded-md"
-          />
-          <ActionButtons marker={marker} />
-          <CommentBox />
-          <div className="flex flex-col gap-3">
-            <Comment name="起O哥" content="羽毛怎麼掉了 QAQ" />
+            <Image
+              src="https://unsplash.it/640/425?random"
+              width={200}
+              height={300}
+              alt="image"
+              className="w-full rounded-md"
+            />
+            <ActionButtons marker={marker} />
+            <CommentBox marker={marker} />
+            <div className="flex flex-col gap-3">
+              {marker.comments.map((comment) => (
+                <Comment
+                  key={comment._id}
+                  name={comment.userId}
+                  content={comment.text}
+                />
+              ))}
+              {/* <Comment name="起O哥" content="羽毛怎麼掉了 QAQ" />
             <Comment name="小明" content="羽毛怎麼掉了 QAQ" />
-            <Comment name="小華" content="羽毛怎麼掉了 QAQ" />
+            <Comment name="小華" content="羽毛怎麼掉了 QAQ" /> */}
+            </div>
+            <X
+              size={24}
+              className="absolute top-4 right-4 text-gray-500"
+              onClick={() => {
+                setIsOpen(false);
+              }}
+            />
           </div>
-          <X
-            size={24}
-            className="absolute top-4 right-4 text-gray-500"
-            onClick={() => {
-              setIsOpen(false);
-            }}
-          />
         </div>
       )}
     </>
   );
 }
 
-function CommentBox() {
+function CommentBox({ marker }: { marker: Marker }) {
+  const queryClient = useQueryClient();
+  const [comment, setComment] = useState("");
   return (
     <div className="flex gap-1 items-end pr-2 my-2">
       <input
         type="text"
         placeholder="說點什麼吧..."
+        value={comment}
+        onChange={(e) => {
+          setComment(e.target.value);
+        }}
         className="flex-1 border-b border-gray-500 placeholder:pl-1"
       />
-      <Send size={24} className="text-gray-500" />
+
+      <Send
+        size={24}
+        className="text-gray-500"
+        onClick={() => {
+          if (!comment) return;
+          fetch(
+            `https://taipei.codingbear.mcloudtw.com/api/warp_event/${marker._id}/comment`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                userId: "user",
+                text: comment,
+              }),
+            }
+          ).then(() => {
+            queryClient.invalidateQueries({
+              queryKey: ["markers"],
+            });
+            setComment("");
+          });
+        }}
+      />
     </div>
   );
 }
@@ -97,19 +137,22 @@ interface VoteStatus {
 }
 
 function ActionButtons({ marker }: { marker: Marker }) {
-  const {
-    data: numberVoteStatus,
-  } = useQuery<VoteStatus>({
+  const { data: numberVoteStatus } = useQuery<VoteStatus>({
     queryKey: ["voteStatus", marker._id],
     queryFn: async () => {
       const result = await fetch(
-        `https://taipei.codingbear.mcloudtw.com/api/warp_event/${marker._id}/vote?userId=user`,
+        `https://taipei.codingbear.mcloudtw.com/api/warp_event/${marker._id}/vote?userId=user`
       );
       return result.json();
     },
   });
 
-  const voteStatus = numberVoteStatus?.vote === 1 ? "up" : numberVoteStatus?.vote === -1 ? "down" : "none";
+  const voteStatus =
+    numberVoteStatus?.vote === 1
+      ? "up"
+      : numberVoteStatus?.vote === -1
+      ? "down"
+      : "none";
   const queryClient = useQueryClient();
 
   function updateVoteStatus(status: "up" | "down" | "none") {

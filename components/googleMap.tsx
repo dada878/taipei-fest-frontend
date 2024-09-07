@@ -135,6 +135,9 @@ const App = () => {
             </AdvancedMarker>
           );
         })}
+        <AdvancedMarker ref={userPosRef}>
+          <UserPosition />
+        </AdvancedMarker>
         <MyComponent />
       </APIProvider>
     </>
