@@ -105,20 +105,6 @@ const App = () => {
           mapId={"470bd1b0506e5f98"}
         ></Map>
 
-        {/* red default marker */}
-        {markers.map((marker, index) => {
-          console.log("marker", marker);
-          return (
-            <AdvancedMarker
-              key={index}
-              position={{ lat: marker.lat, lng: marker.lng }}
-            >
-              <p className="text-5xl">{JSON.stringify(markers)}</p>
-              <div className="size-5 bg-red-700"></div>
-            </AdvancedMarker>
-          );
-        })}
-
         {markers.map((marker, index) => {
           return (
             <AdvancedMarker
