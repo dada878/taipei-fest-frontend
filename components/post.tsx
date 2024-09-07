@@ -1,8 +1,6 @@
 'use client';
 import React, { useEffect, useRef } from "react";
 import style from "../public/use.module.css"
-import "./test"
-import {submit} from "./test"
 // import qq from "../public/qq.png"
 import Image from "next/image";
 export default function Pinsheet() {
@@ -34,7 +32,7 @@ export default function Pinsheet() {
                     <Image src="/../public/qq.png" alt="" width={300} height={300} />
                 </div>
                 <div className={style.butt}>
-                    <button onClick={submit}>發布動態</button>
+                    <button onClick={()=>{}}>發布動態</button>
                 </div>
             </div>
         </div>
