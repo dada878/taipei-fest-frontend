@@ -18,19 +18,15 @@
     max-height: 90vh;
     background-color: #ffffff;
 
-    padding: 20px;
+    padding: 30px;
     position: absolute;
     bottom: 0;
 
     transition: all 0.4s ease;
 }
 
-.bar{
-    width: 272px;
-}
-
 .title{
-    margin: 10px;
+    margin-bottom: 10px;
 }
 .title input{
     width:100%;
@@ -42,7 +38,7 @@
 }
 
 .des{
-    margin:10px;
+    margin-bottom:10px;
 }
 
 .des textarea{
@@ -81,10 +77,9 @@
 }
 
 .tags{
-    display: flex;
-    width: 98%;
+    width: 100%;
     background-color: #dadada;
-    margin: 10px;
+    margin-bottom: 10px;
     border-radius: 5px;
     padding: 10px;
 }
