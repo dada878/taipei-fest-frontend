@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction } from 'react';
 import style from "./use.module.css"
 import Image from "next/image";
 
-import { getDataFromElement, sendPostRequest } from './createPostRequest'
+import { getDataFromElement, sendPostRequest, getFileDataURL } from './createPostRequest'
 import { X } from "lucide-react";
 
 
@@ -14,6 +14,7 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
     const descriptionElement = useRef(null);
     const fileInputElement = useRef(null);
     const tagElement = useRef<HTMLSelectElement | null>(null);
+    const imgRef = useRef(null);
 
     const [textareaContent, setTextareaContent] = React.useState("");
 
@@ -28,6 +29,17 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
             currentElement.style.height = Math.min(currentElement.scrollHeight) + "px";
         }
     }, [])
+
+    async function handleChange() {
+        if (!fileInputElement.current) return
+        if (!imgRef.current) return
+
+        const base64 = await getFileDataURL(fileInputElement.current)
+        var currentImage: HTMLImageElement = imgRef.current
+        currentImage.src = base64
+        var currentInput: HTMLInputElement = fileInputElement.current
+        currentInput.classList.add("hidden")
+    }
 
     async function handleClick() {
         if (!titleElement.current) return
@@ -66,9 +78,9 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
                     <option value="#report">檢舉</option>
                     <option value="#car-accident">車禍</option>
                 </select>
-                <input ref={fileInputElement} type="file" accept="image/png, image/gif, image/jpeg" />
+                <input onChange={handleChange} ref={fileInputElement} type="file" accept="image/png, image/gif, image/jpeg" />
                 <div className={style.pic}>
-                    <img src="" alt="" />
+                    <img ref={imgRef} src="" alt="" />
                 </div>
                 <div className={style.butt}>
                     <button onClick={handleClick}>發布動態</button>
