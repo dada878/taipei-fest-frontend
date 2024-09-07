@@ -16,6 +16,9 @@ import { Marker } from "./googleMap";
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
+TimeAgo.addDefaultLocale(zhHant);
+const timeAgo = new TimeAgo("zh-Hant");
+
 export default function DetailCard({
   isOpen,
   setIsOpen,
@@ -25,8 +28,6 @@ export default function DetailCard({
   setIsOpen: (isOpen: boolean) => void;
   marker: Marker;
 }) {
-  TimeAgo.addDefaultLocale(zhHant);
-  const timeAgo = new TimeAgo("zh-Hant");
 
   return (
     <>
