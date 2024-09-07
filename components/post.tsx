@@ -53,12 +53,20 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
             alert("Geolocation is not supported");
             return;
         }
-        navigator.geolocation.getCurrentPosition((position) => {
+        navigator.geolocation.getCurrentPosition(async (position) => {
             lng = position.coords.longitude;
             lat = position.coords.latitude;
+
+            if (!titleElement.current) return
+            if (!descriptionElement.current) return
+            if (!fileInputElement.current) return
+
+            let postData = await getDataFromElement(titleElement.current, descriptionElement.current, fileInputElement.current, 'user')
+
+            await sendPostRequest(postData, lng, lat, '#global');
+
+            setIsOpen(false)
         });
-        let postData = await getDataFromElement(titleElement.current, descriptionElement.current, fileInputElement.current, 'user')
-        await sendPostRequest(postData, lng, lat, tagElement.current.value);
     }
 
     return (
