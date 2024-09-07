@@ -51,7 +51,7 @@ export interface Marker {
   title: string;
   time: number;
   description?: string;
-  image: string;
+  base64image: string;
   __v: number;
   _id: string;
   comments: Comment[];
@@ -158,7 +158,7 @@ const App = () => {
               }}
             >
               <Mark
-                src={marker.image ?? "https://unsplash.it/640/425?random"}
+                src={marker.base64image ?? "https://unsplash.it/640/425?random"}
               />
             </AdvancedMarker>
           );
