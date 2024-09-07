@@ -1,5 +1,7 @@
-import GoogleMap from '../component/component';
 
+import Pinsheet from "../component/post"
 export default function Home() {
-  return <GoogleMap />
+  return(
+  <Pinsheet/>
+)
 }

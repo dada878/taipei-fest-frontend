@@ -1,8 +1,10 @@
 'use client';
 import React, { useEffect, useRef } from "react";
-import style from "./use.module.css"
+import style from "../public/use.module.css"
 import "./test"
 import {submit} from "./test"
+import qq from "../public/qq.png"
+import Image from "next/image";
 export default function Pinsheet() {
     /*const textareaElement = useRef(null);
 
@@ -16,7 +18,7 @@ export default function Pinsheet() {
     }, [textareaElement])
     */
     return(
-        <div>
+        <div className={style.all}>
             <div className={style.bg}>
                 <div className={style.bar}>
 
@@ -28,7 +30,7 @@ export default function Pinsheet() {
                     <textarea placeholder="請輸入描述..." name="description"></textarea>
                 </div>
                 <div className={style.pic}>
-                    <img src=""></img>
+                    <Image src="/../public/qq.png" alt="" width={300} height={300} />
                 </div>
                 <div className={style.butt}>
                     <button onClick={submit}>發布動態</button>
