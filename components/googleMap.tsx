@@ -12,6 +12,7 @@ import {
 
 import UserPosition from "./userPosition";
 import Mark from "./mark";
+import { useQuery } from "@tanstack/react-query";
 
 const MyComponent = () => {
   const map = useMap();
@@ -31,6 +32,15 @@ const MyComponent = () => {
   return <></>;
 };
 
+export interface Comment {
+  warpEventId: string;
+  _id: string;
+  userId: string;
+  text: string;
+  time: number;
+  __v: number;
+}
+
 export interface Marker {
   lng: number;
   lat: number;
@@ -40,6 +50,10 @@ export interface Marker {
   image: string;
   __v: number;
   _id: string;
+  comments: Comment[];
+  upvotes: number;
+  downvotes: number;
+  sharedCount: number;
 }
 
 const App = () => {
@@ -55,40 +69,40 @@ const App = () => {
     });
   }, [userPos]);
 
-  const [markers, setMarkers] = useState<Marker[]>([]);
+  // const [markers, setMarkers] = useState<Marker[]>([]);
   const [count, setCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMarkerIndex, setSelectedMarkerIndex] = useState(0);
 
-  useEffect(() => {
-    let canceled = false;
-    fetch(
-      "https://taipei.codingbear.mcloudtw.com/api/warp_event/getByCategory",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          category: "#global",
-        }),
-      }
-    )
-      .then((res) => res.json())
-      .then((data: Marker[]) => {
-        if (canceled) return;
-        setMarkers(
-          data
-        );
-      });
-    return () => {
-      canceled = true;
-    };
-  }, []);
+  const {
+    data: markers,
+    isPending,
+    isError,
+    error,
+  } = useQuery<Marker[]>({
+    queryKey: ["markers"],
+    queryFn: async () => {
+      const result = await fetch(
+        "https://taipei.codingbear.mcloudtw.com/api/warp_event/getByCategory",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            category: "#global",
+          }),
+        }
+      );
+      return result.json();
+    },
+  });
+
+  if (isError) return <div>Error: {error?.message}</div>;
 
   return (
     <>
-      {markers.length > 0 && (
+      {markers && markers.length > 0 && (
         <DetailCard
           isOpen={isOpen}
           setIsOpen={setIsOpen}
@@ -104,8 +118,7 @@ const App = () => {
           disableDefaultUI={true}
           mapId={"470bd1b0506e5f98"}
         ></Map>
-
-        {markers.map((marker, index) => {
+        {markers?.map((marker, index) => {
           return (
             <AdvancedMarker
               onClick={() => {
@@ -114,21 +127,14 @@ const App = () => {
               }}
               key={index}
               position={{
-                lat: marker.lng,
-                lng: marker.lat,
+                lat: marker.lat,
+                lng: marker.lng,
               }}
             >
               <Mark src={marker.image} />
             </AdvancedMarker>
           );
         })}
-
-        <AdvancedMarker
-          ref={userPosRef}
-          position={{ lat: 25.02310855716257, lng: 121.53516859015363 }}
-        >
-          <h1>。</h1>
-        </AdvancedMarker>
         <MyComponent />
       </APIProvider>
     </>
