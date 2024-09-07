@@ -5,7 +5,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(255, 0, 0);
+    background-color: white;
     border-radius: 20px;
 }
 
@@ -25,7 +25,7 @@
     position: absolute;
     width: 40px;
     height: 40px;
-    background-color: rgb(255, 0, 0);
+    background-color: white;
     transform: rotate(45deg);
     bottom: -15px;
 }
