@@ -31,6 +31,15 @@ const MyComponent = () => {
   return <></>;
 };
 
+export interface Comment {
+  warpEventId: string;
+  _id: string;
+  userId: string;
+  text: string;
+  time: number;
+  __v: number;
+}
+
 export interface Marker {
   lng: number;
   lat: number;
@@ -40,6 +49,10 @@ export interface Marker {
   image: string;
   __v: number;
   _id: string;
+  comments: Comment[];
+  upvotes: number;
+  downvotes: number;
+  shares: number;
 }
 
 const App = () => {
@@ -104,21 +117,6 @@ const App = () => {
           disableDefaultUI={true}
           mapId={"470bd1b0506e5f98"}
         ></Map>
-
-        {/* red default marker */}
-        {markers.map((marker, index) => {
-          console.log("marker", marker);
-          return (
-            <AdvancedMarker
-              key={index}
-              position={{ lat: marker.lat, lng: marker.lng }}
-            >
-              <p className="text-5xl">{JSON.stringify(markers)}</p>
-              <div className="size-5 bg-red-700"></div>
-            </AdvancedMarker>
-          );
-        })}
-
         {markers.map((marker, index) => {
           return (
             <AdvancedMarker
@@ -128,21 +126,14 @@ const App = () => {
               }}
               key={index}
               position={{
-                lat: marker.lng,
-                lng: marker.lat,
+                lat: marker.lat,
+                lng: marker.lng,
               }}
             >
               <Mark src={marker.image} />
             </AdvancedMarker>
           );
         })}
-
-        <AdvancedMarker
-          ref={userPosRef}
-          position={{ lat: 25.02310855716257, lng: 121.53516859015363 }}
-        >
-          <h1>。</h1>
-        </AdvancedMarker>
         <MyComponent />
       </APIProvider>
     </>
