@@ -100,6 +100,10 @@ const App = () => {
 
   if (isError) return <div>Error: {error?.message}</div>;
 
+  if (!navigator || !navigator.geolocation) {
+    alert("Geolocation is not supported");
+  }
+
   return (
     <>
       {markers && markers.length > 0 && (
