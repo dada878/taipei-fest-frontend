@@ -109,7 +109,7 @@ const App = () => {
           marker={markers[selectedMarkerIndex]}
         />
       )}
-      <APIProvider apiKey={"AIzaSyCmUGZjf9yHKCet_XW7SC-68zaAJgNfgAQ"}>
+      <APIProvider apiKey={"AIzaSyBjFJKlcm_hwYdRGWMC7ih9DMYHZYO8hhI"}>
         <Map
           style={{ width: "100vw", height: "100vh" }}
           defaultCenter={{ lat: 25.03746, lng: 121.564558 }}
