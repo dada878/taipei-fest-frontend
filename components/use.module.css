@@ -79,3 +79,12 @@
     border-radius: 9px;
     color: #ffffff;
 }
+
+.tags{
+    display: flex;
+    width: 300px;
+    background-color: #dadada;
+    margin: 10px;
+    border-radius: 5px;
+    padding: 10px;
+}

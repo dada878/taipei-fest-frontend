@@ -30,49 +30,50 @@ export default function DetailCard({
 
   return (
     <>
-      {isOpen && (
-        <div className="absolute left-0 right-0 bottom-0 top-0 z-10">
-          <div className="bg-white p-6 flex flex-col gap-4 pt-10">
-            <div className="flex gap-3 items-end">
-              <h2 className="text-3xl font-bold">{marker.title}</h2>
-              <p className="text-gray-600">
-                {timeAgo.format(new Date(marker.time))}
-              </p>
-            </div>
+      <div
+        className={`absolute left-0 right-0 bottom-0 top-0 z-10 transition-all duration-300 ${
+          isOpen
+            ? "opacity-100 pointer-events-auto scale-100"
+            : "opacity-0 pointer-events-none scale-90"
+        }`}
+      >
+        <div className="bg-white p-6 flex flex-col gap-4 pt-10">
+          <div className="flex gap-3 items-end">
+            <h2 className="text-3xl font-bold">{marker.title}</h2>
             <p className="text-gray-600">
-              {marker.description ?? "(沒有任何描述)"}
+              {timeAgo.format(new Date(marker.time))}
             </p>
-            <Image
-              src="https://unsplash.it/640/425?random"
-              width={200}
-              height={300}
-              alt="image"
-              className="w-full rounded-md"
-            />
-            <ActionButtons marker={marker} />
-            <CommentBox marker={marker} />
-            <div className="flex flex-col gap-3">
-              {marker.comments.map((comment) => (
-                <Comment
-                  key={comment._id}
-                  name={comment.userId}
-                  content={comment.text}
-                />
-              ))}
-              {/* <Comment name="起O哥" content="羽毛怎麼掉了 QAQ" />
-            <Comment name="小明" content="羽毛怎麼掉了 QAQ" />
-            <Comment name="小華" content="羽毛怎麼掉了 QAQ" /> */}
-            </div>
-            <X
-              size={24}
-              className="absolute top-4 right-4 text-gray-500"
-              onClick={() => {
-                setIsOpen(false);
-              }}
-            />
           </div>
+          <p className="text-gray-600">
+            {marker.description ?? "(沒有任何描述)"}
+          </p>
+          <Image
+            src={marker.image ?? "https://unsplash.it/640/425?random"}
+            width={200}
+            height={300}
+            alt="image"
+            className="w-full rounded-md"
+          />
+          <ActionButtons marker={marker} />
+          <CommentBox marker={marker} />
+          <div className="flex flex-col gap-3">
+            {marker.comments.map((comment) => (
+              <Comment
+                key={comment._id}
+                name={comment.userId}
+                content={comment.text}
+              />
+            ))}
+          </div>
+          <X
+            size={24}
+            className="absolute top-4 right-4 text-gray-500"
+            onClick={() => {
+              setIsOpen(false);
+            }}
+          />
         </div>
-      )}
+      </div>
     </>
   );
 }
