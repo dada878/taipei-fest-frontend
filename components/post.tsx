@@ -5,6 +5,7 @@ import style from "./use.module.css"
 import Image from "next/image";
 
 import { getDataFromElement, sendPostRequest } from './createPostRequest'
+import { X } from "lucide-react";
 
 
 
@@ -37,8 +38,11 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
     }
 
     return (
-        <div className={style.all} style={{ display: (isOpen ? 'flex' : 'none') }}>
-            <div className={style.bg}>
+        <div className={style.all} style={{
+            opacity: (isOpen ? '1' : '0'),
+            backgroundColor: (isOpen ? 'rgba(0, 0, 0, 0.55)' : 'rgba(0, 0, 0, 0)'),
+        }}>
+            <div className={style.bg} style={{bottom: (isOpen ? '0' : '-60vh')}}>
                 <div className={style.title}>
                     <input ref={titleElement} type="text" placeholder="請輸入標題..." name="title"></input>
                 </div>
@@ -53,6 +57,10 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
                     <button onClick={handleClick}>發布動態</button>
                 </div>
             </div>
+
+            <span style={{position: 'absolute', top: '0.5em', right: '0.5em', color: 'white'}} onClick={() => { setIsOpen(false) }}>
+                <X size={'2.5em'} />
+            </span>
         </div>
     )
 }
