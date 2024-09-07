@@ -6,6 +6,7 @@ import Image from "next/image";
 
 import { getDataFromElement, sendPostRequest, getFileDataURL } from './createPostRequest'
 import { X } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 
@@ -15,6 +16,8 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
     const fileInputElement = useRef(null);
     const tagElement = useRef<HTMLSelectElement | null>(null);
     const imgRef = useRef(null);
+
+    const queryClient = useQueryClient();
 
     const [textareaContent, setTextareaContent] = React.useState("");
 
@@ -66,6 +69,9 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
             await sendPostRequest(postData, lng, lat, '#global');
 
             setIsOpen(false)
+            queryClient.invalidateQueries({
+                queryKey: ["markers"],
+            });
         });
     }
 
