@@ -51,7 +51,7 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
                 </div>
                 <input ref={fileInputElement} type="file" accept="image/png, image/gif, image/jpeg" />
                 <div className={style.pic}>
-                    <Image src="/qq.png" alt="" width={300} height={300} />
+                    <img src="" alt="" />
                 </div>
                 <div className={style.butt}>
                     <button onClick={handleClick}>發布動態</button>
