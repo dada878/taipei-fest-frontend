@@ -1,22 +1,41 @@
 import { Plus } from "lucide-react";
-import Post from './post'
+import Post from "./post";
 import { useState } from "react";
 
 export default function CreatePost() {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   function handleClick() {
-    setIsOpen(true)
+    setIsOpen(true);
   }
 
-  return <>
-    <div style={{position: 'fixed', bottom: '1em', left: 'calc(50% - 2.5em)'}} onClick={handleClick}>
-      <div style={{ padding: '0.5em', width: '5em', height: '5em', borderRadius: '50%', backgroundColor: 'white', boxShadow: '0.25em 0.25em 0.5em rgba(0, 0, 0, 30% )' }}>
-        <Plus size={'4em'} color="#959595" />
+  return (
+    <>
+      <div className="flex justify-center items-center w-full fixed left-0 right-0 bottom-9">
+        <div onClick={handleClick}>
+          <div
+            style={{
+              padding: "0.5em",
+              width: "4em",
+              height: "4em",
+              borderRadius: "50%",
+              backgroundColor: "white",
+              boxShadow: "0.2em 0.2em 0.2em rgba(0, 0, 0, 20% )",
+            }}
+          >
+            <Plus size={"3em"} color="#686868" />
+          </div>
+        </div>
+        <div
+          style={{
+            position: "fixed",
+            top: "0",
+            pointerEvents: isOpen ? "auto" : "none",
+          }}
+        >
+          <Post isOpen={isOpen} setIsOpen={setIsOpen} />
+        </div>
       </div>
-    </div>
-    <div style={{position: 'fixed', top: '0', pointerEvents: (isOpen ? 'auto': 'none')}}>
-      <Post isOpen={isOpen} setIsOpen={setIsOpen} />
-    </div>
-  </>
+    </>
+  );
 }
