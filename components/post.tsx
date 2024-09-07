@@ -74,13 +74,13 @@ export default function Post({ isOpen, setIsOpen }: { isOpen: boolean, setIsOpen
                     <textarea ref={descriptionElement} placeholder="請輸入描述..." name="description"></textarea>
                 </div>
                 <select name="tag" className={style.tags} ref={tagElement}>
-                    <option value="#good">好康</option>
-                    <option value="#daily">日常</option>
-                    <option value="#view">景點</option>
-                    <option value="#activity">活動</option>
-                    <option value="#road-conditions">路況</option>
-                    <option value="#report">檢舉</option>
-                    <option value="#car-accident">車禍</option>
+                    <option value="#good #global">好康</option>
+                    <option value="#daily #global">日常</option>
+                    <option value="#view #global">景點</option>
+                    <option value="#activity #global">活動</option>
+                    <option value="#road-conditions #global">路況</option>
+                    <option value="#report #global">檢舉</option>
+                    <option value="#car-accident #global">車禍</option>
                 </select>
                 <input onChange={handleChange} ref={fileInputElement} type="file" accept="image/png, image/gif, image/jpeg" />
                 <div className={style.pic}>
