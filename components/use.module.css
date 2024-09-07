@@ -31,9 +31,8 @@
 .title{
     margin: 10px;
 }
-
 .title input{
-    width:300px;
+    width:100%;
     font-size:medium;
     outline: none;
     border-bottom-style: solid;
@@ -46,7 +45,7 @@
 }
 
 .des textarea{
-    width: 300px;
+    width: 100%;
     min-height: 48px;
     height: fit-content;
     padding: 0;
@@ -82,7 +81,7 @@
 
 .tags{
     display: flex;
-    width: 300px;
+    width: 98%;
     background-color: #dadada;
     margin: 10px;
     border-radius: 5px;
