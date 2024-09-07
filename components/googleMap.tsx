@@ -1,4 +1,5 @@
 "use client";
+import DetailCard from "@/components/detail-card";
 import React, { useEffect, useState } from "react";
 import {
   APIProvider,
@@ -7,10 +8,10 @@ import {
   useMap,
   AdvancedMarker,
   useAdvancedMarkerRef,
-} from '@vis.gl/react-google-maps';
+} from "@vis.gl/react-google-maps";
 
-import UserPosition from './userPosition';
-import Mark from './mark';
+import UserPosition from "./userPosition";
+import Mark from "./mark";
 
 const MyComponent = () => {
   const map = useMap();
@@ -30,13 +31,13 @@ const MyComponent = () => {
   return <></>;
 };
 
-interface Marker {
+export interface Marker {
   lng: number;
   lat: number;
   title: string;
   time: number;
   description?: string;
-  image?: string;
+  image: string;
   __v: number;
   _id: string;
 }
@@ -56,6 +57,8 @@ const App = () => {
 
   const [markers, setMarkers] = useState<Marker[]>([]);
   const [count, setCount] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedMarkerIndex, setSelectedMarkerIndex] = useState(0);
 
   useEffect(() => {
     let canceled = false;
@@ -72,16 +75,10 @@ const App = () => {
       }
     )
       .then((res) => res.json())
-      .then((data) => {
+      .then((data: Marker[]) => {
         if (canceled) return;
         setMarkers(
-          data.map((marker: Marker) => {
-            return {
-              lng: marker.lng,
-              lat: marker.lat,
-              title: marker.title,
-            };
-          })
+          data
         );
       });
     return () => {
@@ -89,14 +86,15 @@ const App = () => {
     };
   }, []);
 
-  console.log("map rerenders");
-
   return (
     <>
-      <button onClick={() => setCount(count + 1)}>
-        click me!
-        {count}
-      </button>
+      {markers.length > 0 && (
+        <DetailCard
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          marker={markers[selectedMarkerIndex]}
+        />
+      )}
       <APIProvider apiKey={"AIzaSyCmUGZjf9yHKCet_XW7SC-68zaAJgNfgAQ"}>
         <Map
           style={{ width: "100vw", height: "100vh" }}
@@ -115,7 +113,6 @@ const App = () => {
               key={index}
               position={{ lat: marker.lat, lng: marker.lng }}
             >
-              {/* <h1 className='text-5xl'>{marker.title}</h1> */}
               <p className="text-5xl">{JSON.stringify(markers)}</p>
               <div className="size-5 bg-red-700"></div>
             </AdvancedMarker>
@@ -125,13 +122,17 @@ const App = () => {
         {markers.map((marker, index) => {
           return (
             <AdvancedMarker
+              onClick={() => {
+                setIsOpen(true);
+                setSelectedMarkerIndex(index);
+              }}
               key={index}
               position={{
                 lat: marker.lng,
-                lng: marker.lat
+                lng: marker.lat,
               }}
             >
-              <h1 className="text-5xl">{marker.title}</h1>
+              <Mark src={marker.image} />
             </AdvancedMarker>
           );
         })}

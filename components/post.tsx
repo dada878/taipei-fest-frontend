@@ -29,7 +29,7 @@ export default function Post() {
                     <textarea ref={textareaElement} placeholder="請輸入描述..." name="description"></textarea>
                 </div>
                 <div className={style.pic}>
-                    <Image src='/qq.png' alt="" width={300} height={300} />
+                    <Image src="/qq.png" alt="" width={300} height={300} />
                 </div>
                 <div className={style.butt}>
                     <button onClick={()=>{}}>發布動態</button>

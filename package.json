@@ -16,6 +16,7 @@
     "@googlemaps/react-wrapper": "^1.1.42",
     "@react-google-maps/api": "^2.19.3",
     "axios": "^1.7.7",
+    "javascript-time-ago": "^2.5.11",
     "lucide": "^0.439.0",
     "lucide-react": "^0.439.0",
     "next": "14.2.4",
